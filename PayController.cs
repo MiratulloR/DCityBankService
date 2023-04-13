@@ -116,9 +116,20 @@ namespace DCityBankService
         public PartnerBalance Get(string clientCode, string msisdn)
         {
             
-               PartnerBalance payAnswer = new PartnerBalance();
+            PartnerBalance payAnswer = new PartnerBalance();
             BankRequests requests = new BankRequests();
-            payAnswer = requests.GetBalance(msisdn, clientCode);
+            //payAnswer = requests.GetBalance(msisdn, clientCode);.
+
+            //Заглушка для пропуска проверки баланса кошелька
+            payAnswer.Balance = "0";
+            payAnswer.Identified = requests.CheckifIdentifiedWalletDcity(msisdn);
+            payAnswer.Status = true;
+            payAnswer.Type = "wallet";
+            payAnswer.Number = "992" + msisdn;
+            payAnswer.clientCode = "992" + msisdn;
+            payAnswer.Currency = "TJS";
+            payAnswer.code = 1;
+
             return payAnswer;
         }
     }
