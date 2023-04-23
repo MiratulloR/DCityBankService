@@ -302,7 +302,22 @@ namespace DCityBankService
                     userinfo.name = username;
                     userinfo.surname = userSurname;
                     userinfo.middlename = middleName;
-                    userinfo.identified = CheckifIdentifiedWalletDcity(msisdn);
+                    int isiden= CheckifIdentifiedWalletDcity(msisdn);
+                    if (isiden == -1)
+                    {
+                        answer.isError = true;
+                        answer.Code = -11;
+                    }
+                    else if (isiden == 1)
+                    {
+                        userinfo.identified = true;
+
+                    }
+                    else
+                    {
+                        userinfo.identified = false;
+                    }
+                    
                     userinfo.status = true;
                     userinfo.type = "wallet";
                     userinfo.msisdn = msisdn;
@@ -468,7 +483,21 @@ namespace DCityBankService
                     userinfo.name = username;
                     userinfo.surname = userSurname;
                     userinfo.middlename = middleName;
-                    userinfo.identified = CheckifIdentifiedWalletDcity(msisdn);
+                    int isiden = CheckifIdentifiedWalletDcity(msisdn);
+                    if (isiden == -1)
+                    {
+                        answer.isError = true;
+                        answer.Code = -11;
+                    }
+                    else if (isiden == 1)
+                    {
+                        userinfo.identified = true;
+
+                    }
+                    else
+                    {
+                        userinfo.identified = false;
+                    }
                     userinfo.status = true;
                     userinfo.type = "wallet";
                     userinfo.msisdn = msisdn;
@@ -1020,9 +1049,9 @@ namespace DCityBankService
             }
 
         }
-        public bool CheckifIdentifiedWalletDcity(string phone)
+        public int CheckifIdentifiedWalletDcity(string phone)
         {
-            bool isden = false;
+            int isden = 0;
             DCityAnswer result = new DCityAnswer();
             CheckIden checkIden = new CheckIden();
             checkIden.Login = "90132";
@@ -1062,19 +1091,24 @@ namespace DCityBankService
                 _log.Debug("RequestToService responseContent: " + responseContent);
                 _log.Debug("RequestToService :body(" + json + ") " + url + " Answer:  " + JsonConvert.SerializeObject(result));
             }
+            catch (TimeoutException ex)
+            {
+                isden = -1;
+            }
             catch (Exception ex)
             {
+                isden = -1;
                 _log.Error("RequestToService :body(" + json + ") " + url + " Answer:  " + ex);
             }
             if (result != null)
             {
                 if (result.Status == "200")
                 {
-                    isden = true;
+                    isden = 1;
                 }
                 else
                 {
-                    isden = false;
+                    isden = isden;
                 }
 
             }
@@ -1118,7 +1152,21 @@ namespace DCityBankService
                 {                  
                     //PartnerBalance userinfo = new PartnerBalance();
                     userinfo.Balance = "0";
-                    userinfo.Identified = CheckifIdentifiedWalletDcity(userid);
+                    int isiden = CheckifIdentifiedWalletDcity(msisdn);
+                    if (isiden == -1)
+                    {
+                        userinfo.code = -11;
+                        
+                    }
+                    else if (isiden == 1)
+                    {
+                        userinfo.Identified = true;
+
+                    }
+                    else
+                    {
+                        userinfo.Identified = false;
+                    }
                     userinfo.Status = true;
                     userinfo.Type = "wallet";
                     userinfo.Number = "992" + msisdn;

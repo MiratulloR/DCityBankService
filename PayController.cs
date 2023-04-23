@@ -119,16 +119,38 @@ namespace DCityBankService
             PartnerBalance payAnswer = new PartnerBalance();
             BankRequests requests = new BankRequests();
             //payAnswer = requests.GetBalance(msisdn, clientCode);.
-
+            int isiden= requests.CheckifIdentifiedWalletDcity(msisdn);
             //Заглушка для пропуска проверки баланса кошелька
-            payAnswer.Balance = "0";
-            payAnswer.Identified = requests.CheckifIdentifiedWalletDcity(msisdn);
-            payAnswer.Status = true;
-            payAnswer.Type = "wallet";
-            payAnswer.Number = "992" + msisdn;
-            payAnswer.clientCode = "992" + msisdn;
-            payAnswer.Currency = "TJS";
-            payAnswer.code = 1;
+           
+            if (isiden == -1)
+            {
+                payAnswer.code = -1;
+                payAnswer = null;
+            }
+            else if (isiden == 1)
+            {
+                payAnswer.Balance = "0";
+                payAnswer.Identified = true;
+                payAnswer.Status = true;
+                payAnswer.Type = "wallet";
+                payAnswer.Number = "992" + msisdn;
+                payAnswer.clientCode = "992" + msisdn;
+                payAnswer.Currency = "TJS";
+                payAnswer.code = 1;
+            }
+            else
+            {
+                payAnswer.Balance = "0";
+                payAnswer.Identified = false;
+                payAnswer.Status = true;
+                payAnswer.Type = "wallet";
+                payAnswer.Number = "992" + msisdn;
+                payAnswer.clientCode = "992" + msisdn;
+                payAnswer.Currency = "TJS";
+                payAnswer.code = 1;
+            }
+           
+            
 
             return payAnswer;
         }
