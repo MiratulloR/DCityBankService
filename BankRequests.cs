@@ -1068,7 +1068,7 @@ namespace DCityBankService
             {
                 byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(data);
                 WebRequest request = WebRequest.Create(url);
-                request.Timeout = 30000;
+                request.Timeout = 70000;
                 request.Method = "POST";
                 request.ContentType = "application/json";
                 request.ContentLength = byteArray.Length;
