@@ -126,11 +126,12 @@ namespace DCityBankService
             Console.WriteLine("RESULT: {0}", result);
             string dataToHash = login + TransactionId + toNumberID + password;
             string sign = CreateMD5(dataToHash);
+            string url = BankLink + "pay" + "&login=" + login + "&txn_id=" + TransactionId + "&account=" + toNumberID + "&ccy=" + "TJS" + "&prvid=" + serviceID + "&sum=" + amount + "&sign=" + sign + "&txn_date=" + result + "&wallet=" + "992" + msisdn;
             //CreateTransaction transaction2 = new CreateTransaction();
             string transaction = "";
             try
             {
-                string url = BankLink + "pay" + "&login=" + login + "&txn_id=" + TransactionId + "&account=" + toNumberID + "&ccy=" + "TJS" + "&prvid=" + serviceID + "&sum=" + amount + "&sign=" + sign + "&txn_date=" + result + "&wallet=" + "992" + msisdn;
+                //string url = BankLink + "pay" + "&login=" + login + "&txn_id=" + TransactionId + "&account=" + toNumberID + "&ccy=" + "TJS" + "&prvid=" + serviceID + "&sum=" + amount + "&sign=" + sign + "&txn_date=" + result + "&wallet=" + "992" + msisdn;
                 HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
                 //  request.ContentType = "application/json";
                 request.Method = "GET";
@@ -248,7 +249,7 @@ namespace DCityBankService
             }
             catch (Exception ee)
             {
-                _log.Debug(ee.Message);
+                _log.Debug("Request error : URL: "+ url, ee);
                 return null;
             }
 
