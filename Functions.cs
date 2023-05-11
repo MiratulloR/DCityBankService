@@ -12,9 +12,9 @@ namespace DCityBankService
     public class Functions
     {
         private readonly ILog _log = LogManager.GetLogger(typeof(Functions));
-        public void CheckTransaction(string TransactionId, int Counter)
+        public void CheckTransaction(string TransactionId, int Counter=0)
         {
-            while (Counter < 3)
+            while (Counter < 5)
             { _log.Debug("sdsd - " + DateTime.Now);
                 Thread.Sleep(30 * 1000);
                 _log.Debug("sdsd1 - " + DateTime.Now);
@@ -36,6 +36,7 @@ namespace DCityBankService
                         DB.DBSUpdateTransactionSucceed(TransactionId.ToString(), "2");
                         payment.isError = false;
                         payment.Status = 1;
+                        break;
 
                     }
                     else
@@ -55,13 +56,14 @@ namespace DCityBankService
                         _log.Debug("aaaa");
                         Thread thread2 = new Thread(() => DB.DBSUpdateTransactionSucceed(TransactionId.ToString(), "3"));
                         thread2.Start();
+                        break;
                     }
 
                 }
-                else
-                {
-                    CheckTransaction(TransactionId, Counter);
-                }
+                //else
+                //{
+                //    CheckTransaction(TransactionId, Counter);
+                //}
             }
           
         }
