@@ -120,7 +120,22 @@ namespace DCityBankService
         public PaymentAnswer CreateTransaction(string msisdn, string amount, string serviceID, string toNumberID, string region, long TransactionId, string ProviderID, string UserNumber)
         {
             PaymentAnswer answer = new PaymentAnswer();
+            
             Functions functions = new Functions();
+            if (serviceID == "130" || serviceID == "125" || serviceID == "1251" && toNumberID.StartsWith("2202"))
+            {
+                
+                answer.isError = true;
+                answer.Code = -1;
+                answer.Comment = "Неверний номер карты";
+                answer.PaymentID = "555";
+                return answer;
+            }
+            else
+            {
+
+            
+
             string date = DateTime.Now.ToString("yyyyMMddHHmmss");
             string result = date.Substring(2, 12);
             Console.WriteLine("RESULT: {0}", result);
@@ -247,10 +262,12 @@ namespace DCityBankService
                 }
                 return answer;
             }
+                
             catch (Exception ee)
             {
                 _log.Debug("Request error : URL: "+ url, ee);
                 return null;
+            }
             }
 
         }
