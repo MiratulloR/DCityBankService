@@ -122,20 +122,7 @@ namespace DCityBankService
             PaymentAnswer answer = new PaymentAnswer();
             
             Functions functions = new Functions();
-            if (serviceID == "130" || serviceID == "125" || serviceID == "1251" && toNumberID.StartsWith("2202"))
-            {
-                
-                answer.isError = true;
-                answer.Code = -1;
-                answer.Comment = "Неверний номер карты";
-                answer.PaymentID = "555";
-                return answer;
-            }
-            else
-            {
-
             
-
             string date = DateTime.Now.ToString("yyyyMMddHHmmss");
             string result = date.Substring(2, 12);
             Console.WriteLine("RESULT: {0}", result);
@@ -268,7 +255,7 @@ namespace DCityBankService
                 _log.Debug("Request error : URL: "+ url, ee);
                 return null;
             }
-            }
+             
 
         }
 
